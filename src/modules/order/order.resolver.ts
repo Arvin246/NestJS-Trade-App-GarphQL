@@ -1,4 +1,4 @@
-import { Args, Int, Query, Resolver } from '@nestjs/graphql';
+import { Args, Query, Resolver } from '@nestjs/graphql';
 import { Order } from './entities/order.entity';
 import { OrderService } from './order.service';
 
@@ -12,7 +12,7 @@ export class OrderResolver {
   }
 
   @Query(() => Order, { name: 'order', nullable: true })
-  order(@Args('id', { type: () => Int }) id: number) {
+  order(@Args('id') id: string) {
     return this.orderService.findOne(id);
   }
 }

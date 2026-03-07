@@ -1,4 +1,4 @@
-import { Args, Int, Query, Resolver } from '@nestjs/graphql';
+import { Args, Query, Resolver } from '@nestjs/graphql';
 import { Product } from './entities/product.entity';
 import { ProductService } from './product.service';
 
@@ -12,7 +12,7 @@ export class ProductResolver {
   }
 
   @Query(() => Product, { name: 'product', nullable: true })
-  product(@Args('id', { type: () => Int }) id: number) {
+  product(@Args('id') id: string) {
     return this.productService.findOne(id);
   }
 }

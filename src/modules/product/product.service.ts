@@ -1,18 +1,18 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../../common/prisma/prisma.service';
 import { Product } from './entities/product.entity';
 
 @Injectable()
 export class ProductService {
-  private readonly products: Product[] = [
-    { id: 1, name: 'Product A', price: 9.99 },
-    { id: 2, name: 'Product B', price: 19.99 },
-  ];
+  constructor(private readonly prisma: PrismaService) {}
 
-  findAll(): Product[] {
-    return this.products;
+  async findAll(): Promise<Product[]> {
+    return this.prisma.product.findMany();
   }
 
-  findOne(id: number): Product | undefined {
-    return this.products.find((p) => p.id === id);
+  async findOne(id: string): Promise<Product | null> {
+    return this.prisma.product.findUnique({
+      where: { id },
+    });
   }
 }

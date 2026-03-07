@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AppResolver } from './app.resolver';
 import { AppService } from './app.service';
 import { graphqlConfig } from './common/config/graphql.config';
+import { PrismaModule } from './common/prisma/prisma.module';
 import { OrderModule } from './modules/order/order.module';
 import { ProductModule } from './modules/product/product.module';
 import { UserModule } from './modules/user/user.module';
@@ -15,6 +16,7 @@ import { UserModule } from './modules/user/user.module';
       driver: ApolloDriver,
       ...graphqlConfig,
     }),
+    PrismaModule,
     UserModule,
     ProductModule,
     OrderModule,

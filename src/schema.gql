@@ -3,13 +3,13 @@
 # ------------------------------------------------------
 
 type Order {
-  id: Int!
+  id: String!
   total: Float!
-  userId: Int!
+  userId: String!
 }
 
 type Product {
-  id: Int!
+  id: String!
   name: String!
   price: Float!
 }
@@ -17,16 +17,16 @@ type Product {
 type Query {
   """Health check / placeholder root query for Phase 1"""
   hello: String!
-  order(id: Int!): Order
+  order(id: String!): Order
   orders: [Order!]!
-  product(id: Int!): Product
+  product(id: String!): Product
   products: [Product!]!
-  user(id: Int!): User
+  user(id: String!): User
   users: [User!]!
 }
 
 type User {
   email: String!
-  id: Int!
+  id: String!
   role: String!
 }

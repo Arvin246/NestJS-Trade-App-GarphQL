@@ -1,10 +1,10 @@
-import { Field, InputType, Int } from '@nestjs/graphql';
+import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
 export class CreateOrderInput {
-  @Field(() => Int)
-  userId: number;
+  @Field()
+  userId: string;
 
-  @Field(() => [Int], { description: 'Product IDs' })
-  productIds: number[];
+  @Field(() => [String], { description: 'Product IDs' })
+  productIds: string[];
 }

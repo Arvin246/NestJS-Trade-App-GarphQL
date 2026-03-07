@@ -1,12 +1,12 @@
-import { Field, Float, Int, ObjectType } from '@nestjs/graphql';
+import { Field, Float, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
 export class Order {
-  @Field(() => Int)
-  id: number;
+  @Field()
+  id: string;
 
-  @Field(() => Int)
-  userId: number;
+  @Field()
+  userId: string;
 
   @Field(() => Float)
   total: number;

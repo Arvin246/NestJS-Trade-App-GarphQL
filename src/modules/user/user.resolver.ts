@@ -1,4 +1,4 @@
-import { Args, Int, Query, Resolver } from '@nestjs/graphql';
+import { Args, Query, Resolver } from '@nestjs/graphql';
 import { User } from './entities/user.entity';
 import { UserService } from './user.service';
 
@@ -12,7 +12,7 @@ export class UserResolver {
   }
 
   @Query(() => User, { name: 'user', nullable: true })
-  user(@Args('id', { type: () => Int }) id: number) {
+  user(@Args('id') id: string) {
     return this.userService.findOne(id);
   }
 }
