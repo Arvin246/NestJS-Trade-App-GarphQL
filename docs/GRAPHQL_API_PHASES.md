@@ -1,6 +1,6 @@
 # GraphQL Order API — Phased Implementation Plan
 
-**Status:** Phases 1–2 done. Phase 3 in progress. Use this file to continue work on later phases.
+**Status:** Phases 1–3 done. Phase 4 done. Use this file to continue work on later phases.
 
 ---
 
@@ -40,13 +40,13 @@ Use a structure that can grow without big refactors:
 | **3.4** | Replace in-memory logic in User, Product, Order services with Prisma. Add `findByUserIds` on OrderService for Phase 5. Do not expose `password` in GraphQL. |
 | **3.5** | Seed: `npx prisma db seed`. **MongoDB:** Writes require a [replica set](https://www.prisma.io/docs/orm/overview/databases/mongodb#run-mongodb-as-a-replica-set) (use Atlas or `mongod --replSet rs0`). |
 
-### Phase 4 — GraphQL relations and nested queries
+### Phase 4 — GraphQL relations and nested queries — Done
 
 | Step    | What |
 | ------- | ---- |
 | **4.1** | User resolver: `@ResolveField(() => [Order])` for `orders`; use `orderService.findByUser(user.id)`. |
 | **4.2** | Order resolver: `@ResolveField` for `user` and for `products` (via OrderItems). |
-| **4.3** | Ensure schema has `User.orders`, `Order.user`, `Order.products`. |
+| **4.3** | Schema has `User.orders`, `Order.user`, `Order.products` (via ResolveField; no circular entity imports). |
 
 ### Phase 5 — N+1 fix with DataLoader
 

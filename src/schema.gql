@@ -4,7 +4,9 @@
 
 type Order {
   id: String!
+  products: [Product!]!
   total: Float!
+  user: User
   userId: String!
 }
 
@@ -28,5 +30,6 @@ type Query {
 type User {
   email: String!
   id: String!
+  orders: [Order!]!
   role: String!
 }
