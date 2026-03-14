@@ -1,0 +1,189 @@
+{
+  "info": {
+    "name": "Order Supply GraphQL API",
+    "description": "All GraphQL queries and mutations for the order-supply NestJS API.\n\n**Setup:**\n1. Set `baseUrl` to `http://localhost:4000` (default).\n2. Run **Login** and copy `access_token` from the response into the collection variable `access_token`, or set it in the request's Authorization header.\n3. Queries marked *Auth required* need the `Authorization: Bearer {{access_token}}` header.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:4000" },
+    { "key": "access_token", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"query\": \"{ hello }\"\n}"
+        },
+        "url": "{{baseUrl}}/graphql"
+      }
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"mutation Register($input: RegisterInput!) { register(input: $input) { access_token user { id email role } } }\",\n  \"variables\": {\n    \"input\": {\n      \"email\": \"newuser@example.com\",\n      \"password\": \"secret123\",\n      \"role\": \"USER\"\n    }\n  }\n}"
+            },
+            "url": "{{baseUrl}}/graphql"
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"mutation Login($input: LoginInput!) { login(input: $input) { access_token user { id email role } } }\",\n  \"variables\": {\n    \"input\": {\n      \"email\": \"user@example.com\",\n      \"password\": \"placeholder\"\n    }\n  }\n}"
+            },
+            "url": "{{baseUrl}}/graphql"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Users (list)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"{ users { id email role } }\"\n}"
+            },
+            "url": "{{baseUrl}}/graphql"
+          }
+        },
+        {
+          "name": "User (single) [Auth]",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"query User($id: String!) { user(id: $id) { id email role } }\",\n  \"variables\": { \"id\": \"USER_ID_HERE\" }\n}"
+            },
+            "url": "{{baseUrl}}/graphql"
+          }
+        },
+        {
+          "name": "Users with orders",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"{ users { id email role orders { id userId total } } }\"\n}"
+            },
+            "url": "{{baseUrl}}/graphql"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "Products (list)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"{ products { id name price } }\"\n}"
+            },
+            "url": "{{baseUrl}}/graphql"
+          }
+        },
+        {
+          "name": "Product (single)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"query Product($id: String!) { product(id: $id) { id name price } }\",\n  \"variables\": { \"id\": \"PRODUCT_ID_HERE\" }\n}"
+            },
+            "url": "{{baseUrl}}/graphql"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "Orders (list) [Auth]",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"{ orders { id userId total } }\"\n}"
+            },
+            "url": "{{baseUrl}}/graphql"
+          }
+        },
+        {
+          "name": "Order (single) [Auth]",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"query Order($id: String!) { order(id: $id) { id userId total user { id email } products { id name price } } }\",\n  \"variables\": { \"id\": \"ORDER_ID_HERE\" }\n}"
+            },
+            "url": "{{baseUrl}}/graphql"
+          }
+        },
+        {
+          "name": "Orders with user and products [Auth]",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{access_token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"{ orders { id userId total user { id email role } products { id name price } } }\"\n}"
+            },
+            "url": "{{baseUrl}}/graphql"
+          }
+        }
+      ]
+    },
+    {
+      "name": "All in one (public)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"query\": \"{ hello users { id email role } products { id name price } }\"\n}"
+        },
+        "url": "{{baseUrl}}/graphql"
+      }
+    }
+  ]
+}

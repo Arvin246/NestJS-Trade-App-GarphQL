@@ -23,9 +23,9 @@ export class OrderService {
     });
   }
 
-  async findByUserIds(userIds: string[]): Promise<Order[]> {
+  async findByUserIds(userIds: readonly string[]): Promise<Order[]> {
     return this.prisma.order.findMany({
-      where: { userId: { in: userIds } },
+      where: { userId: { in: [...userIds] } },
     });
   }
 

@@ -12,8 +12,8 @@ export class OrderLoader {
   private loader: DataLoader<string, Order[]>;
 
   constructor(private readonly orderService: OrderService) {
-    this.loader = new DataLoader<string, Order[]>(
-      this.batchOrdersByUserId.bind(this),
+    this.loader = new DataLoader<string, Order[]>((userIds) =>
+      this.batchOrdersByUserId(userIds),
     );
   }
 
@@ -21,7 +21,9 @@ export class OrderLoader {
     return this.loader.load(userId);
   }
 
-  private async batchOrdersByUserId(userIds: string[]): Promise<Order[][]> {
+  private async batchOrdersByUserId(
+    userIds: readonly string[],
+  ): Promise<Order[][]> {
     const orders = await this.orderService.findByUserIds(userIds);
     const byUserId = new Map<string, Order[]>();
     for (const order of orders) {

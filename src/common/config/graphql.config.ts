@@ -1,4 +1,5 @@
 import { ApolloDriverConfig } from '@nestjs/apollo';
+import type { Request } from 'express';
 import { join } from 'path';
 
 /**
@@ -9,4 +10,5 @@ export const graphqlConfig: ApolloDriverConfig = {
   autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
   sortSchema: true,
   playground: true,
+  context: ({ req }: { req: Request }) => ({ req }),
 };

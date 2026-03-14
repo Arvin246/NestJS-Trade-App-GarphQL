@@ -1,4 +1,6 @@
+import { UseGuards } from '@nestjs/common';
 import { Args, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import { GqlAuthGuard } from '../auth/guards/gql-auth.guard';
 import { OrderLoader } from '../order/order.loader';
 import { Order } from '../order/entities/order.entity';
 import { User } from './entities/user.entity';
@@ -16,6 +18,7 @@ export class UserResolver {
     return this.userService.findAll();
   }
 
+  @UseGuards(GqlAuthGuard)
   @Query(() => User, { name: 'user', nullable: true })
   user(@Args('id') id: string) {
     return this.userService.findOne(id);

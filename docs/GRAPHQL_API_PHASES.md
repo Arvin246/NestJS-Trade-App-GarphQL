@@ -1,6 +1,6 @@
 # GraphQL Order API — Phased Implementation Plan
 
-**Status:** Phases 1–5 done. Use this file to continue work on later phases.
+**Status:** Phases 1–6 done. Use this file to continue work on later phases.
 
 ---
 
@@ -56,13 +56,13 @@ Use a structure that can grow without big refactors:
 | **5.2** | OrderLoader request-scoped; User resolver `orders` uses `orderLoader.load(user.id)` instead of `orderService.findByUser`. |
 | **5.3** | (Optional) ProductLoader for Order.products — skipped; add later if N+1 shows up in profiling. |
 
-### Phase 6 — Authentication (JWT)
+### Phase 6 — Authentication (JWT) — Done
 
 | Step    | What |
 | ------- | ---- |
-| **6.1** | Install @nestjs/jwt, passport-jwt; AuthModule + AuthService; register + login (bcrypt, JWT); ConfigModule for env. |
-| **6.2** | JwtStrategy + GqlAuthGuard; attach user to context. |
-| **6.3** | login/register mutations; protect resolvers with @UseGuards(GqlAuthGuard). |
+| **6.1** | @nestjs/jwt, passport-jwt, bcrypt, ConfigModule; AuthModule + AuthService (register with bcrypt, login with JWT). |
+| **6.2** | JwtStrategy + GqlAuthGuard; GraphQL context includes req for Bearer token; user attached to req.user. |
+| **6.3** | Mutations: register(input), login(input) → AuthPayload { access_token, user }; @UseGuards(GqlAuthGuard) on user(id), orders, order(id). |
 
 ### Phase 7 — Role-based access
 
